@@ -1,0 +1,325 @@
+<?php
+    use PHPMailer\PHPMailer\PHPMailer;
+    
+    if (isset($_POST["send"])) {
+        $error_msg = "";
+        $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+        $email = str_replace(array("\r", "\n", "%0a", "%0d"), '', $_POST['email']);
+        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+        $subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
+        $message = htmlspecialchars($_POST['message']);
+        #$recipient = "daramola.olusegun@westviewcollege.com.ng";
+        #$token = "?g9bLd%3*4!Z";
+        $user_token = array(
+            "director@westviewcollege.com.ng"=>"eMD_#uV*l1#P",
+            "bukayo.charles@westviewcollege.com.ng"=>"G,F+3MfUXXv}",
+            "daramola.olusegun@westviewcollege.com.ng"=>"?g9bLd%3*4!Z"
+        );
+        $recipients = array(
+            "director@westviewcollege.com.ng",
+            "bukayo.charles@westviewcollege.com.ng",
+            "daramola.olusegun@westviewcollege.com.ng"
+        );
+        $tokens = array(
+            "eMD_#uV*l1#P",
+            "G,F+3MfUXXv}",
+            "?g9bLd%3*4!Z"
+        );
+        
+        require_once "PHPMailer/PHPMailer.php";
+        require_once "PHPMailer/SMTP.php";
+        require_once "PHPMailer/Exception.php";
+        
+        $mail = new PHPMailer();
+        
+        #foreach ($user_token as $recipient => $token) {
+        for ($i = 0; $i < count($recipients); $i++) {
+            #SMTP settings
+            $mail->isSMTP();
+            $mail->Host = "mail.westviewcollege.com.ng";
+            $mail->SMTPAuth = true;
+            $mail->Username = $recipients[$i];
+            $mail->Password = $tokens[$i];
+            $mail->Port = 465;
+            $mail->SMTPSecure = "ssl";
+                
+            #Email settings
+            $mail->isHTML(true);
+            $mail->setFrom($email, $name);
+            $mail->addAddress($recipients[$i]);
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+                
+            #Send Email
+            if ($mail->send()) {
+                $_POST['name'] = "";
+                $_POST['email'] = "";
+                $_POST['subject'] = "";
+                $_POST['message'] = "";
+                $error_msg = "Thank you for contacting us, $name. You will get a reply as soon as possible.";
+            } else {
+                $error_msg = "We are sorry but the email did not go through. " . $mail->ErrorInfo;
+            }
+        }
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Westview College - Contact Us</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Westview, WESTVIEW, westview, westview college, westviewcollege, www.westviewcollege.com.ng, Westview College Lagos" name="keywords">
+    <meta content="Westview College" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Nunito&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Flaticon Font -->
+    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-light position-relative shadow">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
+            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px;">
+                <!--<i class="flaticon-043-teddy-bear"></i>-->
+				<img class="navbar-pic" href="index.html" src="img/westview-logo2.jpg" width="50px" height="50px" />
+                <span class="text-primary">Westview College</span>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav font-weight-bold mx-auto py-0">
+                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">School</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="admission.php" class="nav-item nav-link">Admissions</a>
+                            <a href="academics.html" class="nav-item nav-link">Academics</a>
+                        </div>
+                    </div>
+                    <a href="gallery.html" class="nav-item nav-link">Gallery</a>
+                    <a href="contact.php" class="nav-item nav-link active">Contact</a>
+                </div>
+                <a href="https://goo.gl/maps/6fg32d2rRcjcpfrC7" class="btn btn-primary px-4" target="_blank">Find Us</a>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+            <h3 class="display-3 font-weight-bold text-white">Contact Us</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0"><a class="text-white" href="">Home</a></p>
+                <p class="m-0 px-2">/</p>
+                <p class="m-0">Contact Us</p>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid pt-5">
+        <div class="container">
+            <div class="text-center pb-2">
+                <p class="section-title px-5"><span class="px-2">Get In Touch</span></p>
+                <h1 class="mb-4">Contact Us For Any Query</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-7 mb-5">
+                    <div class="contact-form">
+                        <!-- <div id="success"></div> -->
+                        <p style="color:green;"><strong><?php if (isset($error_msg)) { echo $error_msg; }?></strong></p>
+                        <form action="" method="post">
+                            <div class="control-group">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required="required" value="<?php if (isset($_POST['name'])) { echo $_POST['name']; }?>" data-validation-required-message="Please enter your name" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="required" value="<?php if (isset($_POST['email'])) { echo $_POST['email']; }?>" data-validation-required-message="Please enter your email" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required="required" value="<?php if (isset($_POST['subject'])) { echo $_POST['subject']; }?>" data-validation-required-message="Please enter a subject" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <textarea class="form-control" rows="6" name="message" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"><?php if (isset($_POST['message'])) { echo $_POST['message']; }?></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary py-2 px-4" type="submit" name="send" id="sendMessageButton">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5 mb-5">
+                    <p>We are always ready to attend to your requests and queries. Feel free to use any of the means provided.</p>
+                    <div class="d-flex">
+                        <i class="fa fa-map-marker-alt d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle" style="width: 45px; height: 45px;"></i>
+                        <div class="pl-3">
+                            <h5>Address</h5>
+                            <p>5 Makoko Road, by Danny Estate, Adekunle , Yaba, Lagos.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <i class="fa fa-envelope d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle" style="width: 45px; height: 45px;"></i>
+                        <div class="pl-3">
+                            <h5>Email</h5>
+                            <p>info@westviewcollege.com.ng</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <i class="fa fa-phone-alt d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle" style="width: 45px; height: 45px;"></i>
+                        <div class="pl-3">
+                            <h5>Phone</h5>
+                            <p>08032228865, 08088222246</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <i class="far fa-clock d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle" style="width: 45px; height: 45px;"></i>
+                        <div class="pl-3">
+                            <h5>Opening Hours</h5>
+                            <strong>Monday - Friday:</strong>
+                            <p class="m-0">07:00 AM - 04:00 PM </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+    
+    <!-- Map iframe Start -->
+    <div class="container-fluid mb-5">
+        <div class="d-flex flex-column">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d3964.2020218382704!2d3.3853559149540047!3d6.496087925283204!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x103b8c8e439db475%3A0xf66fec528cc8c3a!2s5%20Makoko%20Rd%2C%20Lagos%20Mainland%20101245%2C%20Lagos!3m2!1d6.496082599999999!2d3.3875446!5e0!3m2!1sen!2sng!4v1657128852815!5m2!1sen!2sng" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+    <!-- Map iframe End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-secondary text-white mt-5 py-5 px-sm-3 px-md-5">
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <a href="" class="navbar-brand font-weight-bold text-primary m-0 mb-4 p-0" style="font-size: 40px; line-height: 40px;">
+                    <!--<i class="flaticon-043-teddy-bear"></i>-->
+					<img src="img/westview-logo2.jpg" width="50px" height="50px" />
+                    <span class="text-white">Westview</span>
+                </a>
+                <p>We are an academic institution dedicated to making quality and affordable education attainable to all.</p>
+                <div class="d-flex justify-content-start mt-4">
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="https://www.facebook.com/westviewyaba"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="http://wa.me/+2348032228865"><i class="fab fa-whatsapp"></i></a>
+                    <!--<a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>-->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h3 class="text-primary mb-4">Get In Touch</h3>
+                <div class="d-flex">
+                    <h4 class="fa fa-map-marker-alt text-primary"></h4>
+                    <div class="pl-3">
+                        <h5 class="text-white">Address</h5>
+                        <p>5 Makoko Road, by Danny Estate, Adekunle , Yaba, Lagos.</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <h4 class="fa fa-envelope text-primary"></h4>
+                    <div class="pl-3">
+                        <h5 class="text-white">Email</h5>
+                        <p>info@westviewcollege.com.ng</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <h4 class="fa fa-phone-alt text-primary"></h4>
+                    <div class="pl-3">
+                        <h5 class="text-white">Phone</h5>
+                        <p>08032228865, 08088222246</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h3 class="text-primary mb-4">Quick Links</h3>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-white mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                    <a class="text-white mb-2" href="about.html"><i class="fa fa-angle-right mr-2"></i>About Us</a>
+                    <a class="text-white mb-2" href="admission.html"><i class="fa fa-angle-right mr-2"></i>Admissions</a>
+                    <a class="text-white mb-2" href="academics.html"><i class="fa fa-angle-right mr-2"></i>Academics</a>
+                    <a class="text-white" href="contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h3 class="text-primary mb-4">Newsletter</h3>
+                <form action="">
+                    <div class="form-group">
+                        <input type="text" class="form-control border-0 py-4" placeholder="Your Name" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control border-0 py-4" placeholder="Your Email"
+                            required="required" />
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">Submit Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container-fluid pt-5" style="border-top: 1px solid rgba(23, 162, 184, .2);;">
+            <p class="m-0 text-center text-white">
+                &copy; <a class="text-primary font-weight-bold" href="#">Westview College</a>. All Rights Reserved. Setup
+                by
+                <a class="text-primary font-weight-bold" href="#">Brandle Solutions</a>
+            </p>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
