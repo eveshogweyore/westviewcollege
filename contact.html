@@ -48,12 +48,12 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">School</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="admission.php" class="nav-item nav-link">Admissions</a>
+                            <a href="admission.html" class="nav-item nav-link">Admissions</a>
                             <a href="academics.html" class="nav-item nav-link">Academics</a>
                         </div>
                     </div>
                     <a href="gallery.html" class="nav-item nav-link">Gallery</a>
-                    <a href="contact.php" class="nav-item nav-link active">Contact</a>
+                    <a href="contact.html" class="nav-item nav-link active">Contact</a>
                 </div>
                 <a href="https://goo.gl/maps/6fg32d2rRcjcpfrC7" class="btn btn-primary px-4" target="_blank">Find Us</a>
             </div>
@@ -87,22 +87,22 @@
                 <div class="col-lg-7 mb-5">
                     <div class="contact-form">
                         <!-- <div id="success"></div> -->
-                        <p style="color:green;"><strong><?php if (isset($error_msg)) { echo $error_msg; }?></strong></p>
+                        <p style="color:green;"><strong></strong></p> <!-- Handle Error Messages (TO BE IMPLEMENTED LATER) -->
                         <form action="" method="post">
                             <div class="control-group">
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required="required" value="<?php if (isset($_POST['name'])) { echo $_POST['name']; }?>" data-validation-required-message="Please enter your name" />
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required="required" value="" data-validation-required-message="Please enter your name" />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="required" value="<?php if (isset($_POST['email'])) { echo $_POST['email']; }?>" data-validation-required-message="Please enter your email" />
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="required" value="" data-validation-required-message="Please enter your email" />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group">
-                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required="required" value="<?php if (isset($_POST['subject'])) { echo $_POST['subject']; }?>" data-validation-required-message="Please enter a subject" />
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required="required" value="" data-validation-required-message="Please enter a subject" />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group">
-                                <textarea class="form-control" rows="6" name="message" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"><?php if (isset($_POST['message'])) { echo $_POST['message']; }?></textarea>
+                                <textarea class="form-control" rows="6" name="message" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div>
@@ -208,7 +208,7 @@
                     <a class="text-white mb-2" href="about.html"><i class="fa fa-angle-right mr-2"></i>About Us</a>
                     <a class="text-white mb-2" href="admission.html"><i class="fa fa-angle-right mr-2"></i>Admissions</a>
                     <a class="text-white mb-2" href="academics.html"><i class="fa fa-angle-right mr-2"></i>Academics</a>
-                    <a class="text-white" href="contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                    <a class="text-white" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-5">
@@ -259,3 +259,4 @@
 
 
 </html>
+
